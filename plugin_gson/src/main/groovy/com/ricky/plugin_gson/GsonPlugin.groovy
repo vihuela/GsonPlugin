@@ -8,8 +8,11 @@ class GsonPlugin implements Plugin<Project> {
     @Override
     void apply(Project project) {
         // add dependencies
+        project.repositories.maven {
+            url "https://jitpack.io"
+        }
         project.dependencies.add("api",
-                "com.xiaoe.base:xe-plugin-gson:1.0.0")
+                "com.github.vihuela:GsonPluginSdk:1.0")
 
         // register transform
         project.android.registerTransform(new GsonJarTransform(project))

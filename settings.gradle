@@ -1,4 +1,3 @@
-include ':plugin_gson_sdk'
 include ':plugin_gson'
 include ':app'
 rootProject.name = "GsonPlugin"
