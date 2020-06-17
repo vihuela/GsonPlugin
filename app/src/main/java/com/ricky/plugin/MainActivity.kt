@@ -6,6 +6,7 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import com.ricky.plugin.gson.GsonUnitTest
 import com.ricky.plugin_gson_sdk.GsonPluginUtil
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,13 @@ class MainActivity : AppCompatActivity() {
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                     .setAction("Action", null).show()
         }
+
+        val gsonUnitTest = GsonUnitTest()
+        gsonUnitTest.mockIntReturnString()
+        gsonUnitTest.mockBooleanReturnInt()
+        gsonUnitTest.mockArrayReturnString()
+        gsonUnitTest.mockStringReturnArray()
+        gsonUnitTest.mockObjectReturnString()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
