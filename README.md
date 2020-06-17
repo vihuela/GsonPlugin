@@ -4,17 +4,21 @@
 
 ## 来由
 
-后台如果是弱数据类型，如我司：php，那么数据返回就会存在不可控，因为Android 使用Gson时为强字段类似约束，就会存在：<br>
+后台如果是弱数据类型，如：PHP，那么数据返回就会存在不可控，尤其后台是长周期大项目，几乎不可能为了App兼容<br>
+Android 使用Gson时为强字段类型约束，就会存在：<br>
 定义的是**Int**，返回**String**<br>
 定义的是**Obejct**，返回**Array**<br>
 定义的是**Boolean**，返回的是**String**<br>
+定义的是**String**，返回的是**null**<br>
 ...
+大部分情况是某个字段解析失败，导致整个Json解析失败，界面无法渲染<br>
+虽然可以使用JsonElement接收，也可以使用String接收，然后在判空、判断类型取值，但是**存在大量重复代码**
 
 ### 分析
 我们拿集合解析举例：
-GSON会使用**CollectionTypeAdapterFactory** 处理 集合解析
+GSON(2.8.6)会使用**CollectionTypeAdapterFactory** 处理 集合解析
 
-73行
+源码73行
 
 ```java
 @Override public Collection<E> read(JsonReader in) throws IOException {
@@ -88,4 +92,11 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.8.6'
 
 }
+```
+拦截Json解析错误
+
+```
+GsonPluginUtil.setListener { exception, invokeStack ->
+            Log.e("gson:", exception)
+        }
 ```
