@@ -38,7 +38,22 @@ public void beginArray() throws IOException {
 
 **ReflectiveTypeAdapterFactory**处理对象解析<br>**TypeAdapters**处理基本数据类型解析
 
-### 优化
+### 解决
+
+GsonBuilder提供了自定义的解析工厂**registerTypeAdapter**,如：<br>
+
+```
+val IntDeser = JsonDeserializer<Int> { json, typeOfT, context ->
+    try {
+        json?.asInt ?: 0
+    } catch (e: NumberFormatException) {
+        0
+    }
+}
+registerTypeAdapter(Int::class.java, IntDeser)
+```
+
+但是目前无法处理对象类型，所以考虑使用代码插桩：<br>
 
 我们可以在解析工厂类的read方法之前之前**插入代码**，若不满足要求则不进去read方法，同时跳过当前解析，则可以**解决字段解析抛出异常中断整个解析链**的问题
 
